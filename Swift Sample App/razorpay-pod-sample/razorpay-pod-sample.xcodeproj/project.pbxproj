@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,7 +13,7 @@
 		0C1A120023E45DC60015A0BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C1A11FE23E45DC60015A0BD /* Main.storyboard */; };
 		0C1A120223E45DCA0015A0BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C1A120123E45DCA0015A0BD /* Assets.xcassets */; };
 		0C1A120523E45DCA0015A0BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C1A120323E45DCA0015A0BD /* LaunchScreen.storyboard */; };
-		4460FAFB011FF0706658DDCD /* Pods_razorpay_pod_sample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 875979EE133F6DAAD581FDAB /* Pods_razorpay_pod_sample.framework */; };
+7595A59E2F8FC3E00032FA77 /* RazorpayCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 7595A59D2F8FC3E00032FA77 /* RazorpayCheckout */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,17 +25,14 @@
 		0C1A120123E45DCA0015A0BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0C1A120423E45DCA0015A0BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0C1A120623E45DCA0015A0BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FCDD6AF83EAB2404B1B7A75 /* Pods-razorpay-pod-sample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-razorpay-pod-sample.debug.xcconfig"; path = "Target Support Files/Pods-razorpay-pod-sample/Pods-razorpay-pod-sample.debug.xcconfig"; sourceTree = "<group>"; };
-		875979EE133F6DAAD581FDAB /* Pods_razorpay_pod_sample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_razorpay_pod_sample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F0F44CE48087C7A4AAF7EC77 /* Pods-razorpay-pod-sample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-razorpay-pod-sample.release.xcconfig"; path = "Target Support Files/Pods-razorpay-pod-sample/Pods-razorpay-pod-sample.release.xcconfig"; sourceTree = "<group>"; };
-/* End PBXFileReference section */
+	/* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		0C1A11F223E45DC60015A0BD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4460FAFB011FF0706658DDCD /* Pods_razorpay_pod_sample.framework in Frameworks */,
+				7595A59E2F8FC3E00032FA77 /* RazorpayCheckout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,8 +44,6 @@
 			children = (
 				0C1A11F723E45DC60015A0BD /* razorpay-pod-sample */,
 				0C1A11F623E45DC60015A0BD /* Products */,
-				5DC534F15449FF391C942F70 /* Pods */,
-				9152A12135E18DC34C34E887 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,36 +69,16 @@
 			path = "razorpay-pod-sample";
 			sourceTree = "<group>";
 		};
-		5DC534F15449FF391C942F70 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5FCDD6AF83EAB2404B1B7A75 /* Pods-razorpay-pod-sample.debug.xcconfig */,
-				F0F44CE48087C7A4AAF7EC77 /* Pods-razorpay-pod-sample.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		9152A12135E18DC34C34E887 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				875979EE133F6DAAD581FDAB /* Pods_razorpay_pod_sample.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-/* End PBXGroup section */
+	/* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
 		0C1A11F423E45DC60015A0BD /* razorpay-pod-sample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0C1A120923E45DCA0015A0BD /* Build configuration list for PBXNativeTarget "razorpay-pod-sample" */;
 			buildPhases = (
-				CB768EDF8F86ECDBC4BA9020 /* [CP] Check Pods Manifest.lock */,
 				0C1A11F123E45DC60015A0BD /* Sources */,
 				0C1A11F223E45DC60015A0BD /* Frameworks */,
 				0C1A11F323E45DC60015A0BD /* Resources */,
-				4127CFBCFB6CBCE2C2235F20 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -138,6 +113,9 @@
 				Base,
 			);
 			mainGroup = 0C1A11EC23E45DC60015A0BD;
+			packageReferences = (
+				7595A59C2F8FC3E00032FA77 /* XCRemoteSwiftPackageReference "razorpay-pod" */,
+			);
 			productRefGroup = 0C1A11F623E45DC60015A0BD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -160,47 +138,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		4127CFBCFB6CBCE2C2235F20 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-razorpay-pod-sample/Pods-razorpay-pod-sample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-razorpay-pod-sample/Pods-razorpay-pod-sample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-razorpay-pod-sample/Pods-razorpay-pod-sample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CB768EDF8F86ECDBC4BA9020 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-razorpay-pod-sample-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0C1A11F123E45DC60015A0BD /* Sources */ = {
@@ -351,16 +288,16 @@
 		};
 		0C1A120A23E45DCA0015A0BD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5FCDD6AF83EAB2404B1B7A75 /* Pods-razorpay-pod-sample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 83FDM6P946;
 				INFOPLIST_FILE = "razorpay-pod-sample/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.razorpay.razorpay-pod-sample";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhruv.duitnow.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -369,16 +306,16 @@
 		};
 		0C1A120B23E45DCA0015A0BD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F0F44CE48087C7A4AAF7EC77 /* Pods-razorpay-pod-sample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 83FDM6P946;
 				INFOPLIST_FILE = "razorpay-pod-sample/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.razorpay.razorpay-pod-sample";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhruv.duitnow.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -407,6 +344,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7595A59C2F8FC3E00032FA77 /* XCRemoteSwiftPackageReference "razorpay-pod" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/razorpay/razorpay-pod";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7595A59D2F8FC3E00032FA77 /* RazorpayCheckout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7595A59C2F8FC3E00032FA77 /* XCRemoteSwiftPackageReference "razorpay-pod" */;
+			productName = RazorpayCheckout;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0C1A11ED23E45DC60015A0BD /* Project object */;
 }
