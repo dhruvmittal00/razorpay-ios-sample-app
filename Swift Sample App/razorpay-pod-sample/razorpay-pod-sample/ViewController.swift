@@ -107,6 +107,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var activityIndicator: UIActivityIndicatorView!
     var resultCard: UIView!
     var resultStack: UIStackView!
+    var resetButton: UIButton!
     var lastResponseHeaders: [String: String]?
 
     // MARK: - Lifecycle
@@ -160,6 +161,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         resultCard = buildResultCard()
         resultCard.isHidden = true
         contentStack.addArrangedSubview(resultCard)
+
+        resetButton = buildResetButton()
+        resetButton.isHidden = true
+        contentStack.addArrangedSubview(resetButton)
 
         contentStack.addArrangedSubview(buildEnvInfoCard())
     }
@@ -408,6 +413,51 @@ class ViewController: UIViewController, UITextFieldDelegate {
         resultStack.translatesAutoresizingMaskIntoConstraints = false
         pinToCard(resultStack, card: card)
         return card
+    }
+
+    func buildResetButton() -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle("New Payment", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = Blade.body(16, weight: .semibold)
+        button.backgroundColor = Blade.actionPrimary
+        button.layer.cornerRadius = Blade.radiusMedium
+        button.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        button.addTarget(self, action: #selector(resetPayment), for: .touchUpInside)
+        return button
+    }
+
+    @objc func resetPayment() {
+        // Hide status & result cards with animation
+        UIView.animate(withDuration: 0.25, animations: {
+            self.statusCard.alpha = 0
+            self.resultCard.alpha = 0
+            self.resetButton.alpha = 0
+        }) { _ in
+            self.statusCard.isHidden = true
+            self.resultCard.isHidden = true
+            self.resetButton.isHidden = true
+            self.statusCard.alpha = 1
+            self.resultCard.alpha = 1
+            self.resetButton.alpha = 1
+
+            // Clear result stack
+            self.resultStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+            // Reset state
+            self.lastPaymentId = nil
+            self.lastResponseHeaders = nil
+            self.statusLogLabel.isHidden = true
+
+            // Re-enable CIMB button
+            self.setLoading(false)
+
+            // Scroll back to top
+            self.scrollView.setContentOffset(.zero, animated: true)
+
+            // Pre-fetch a fresh session token for the next payment
+            self.preFetchSessionToken()
+        }
     }
 
     func buildEnvInfoCard() -> UIView {
@@ -882,6 +932,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 self.statusLogLabel.isHidden = true
             }
 
+            // Show reset button (except during transient "info" states like "Initializing" / "Creating Payment")
+            let isTransient = (type == .info)
+            if !isTransient {
+                self.resetButton.isHidden = false
+            }
+
             UIView.animate(withDuration: 0.2) {
                 self.statusCard.alpha = 1
                 self.view.layoutIfNeeded()
@@ -996,21 +1052,53 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    /// Transform CIMB web URL → app deep link
-    /// Per Paynet A2A Framework Section 4.2:
-    /// Replace https://uat3.cimbclicks.com.my/dobb2c/ → novuscimboctouat://
+    /// Transform CIMB web URL → app deep link.
+    /// Parses the Paynet-generated URL (host/path vary: uat2/clicks vs uat3/dobb2c),
+    /// extracts DbtrAgt / EndtoEndId / EndtoEndIdSignature from either the query
+    /// string or the fragment, and rebuilds a canonical:
+    ///   novuscimboctouat://RPP/MY/Redirect/RTP?<params>&Callback=<encoded>
     func transformToAppDeepLink(_ webUrl: String) -> String {
-        var appUrl = webUrl.replacingOccurrences(
-            of: "https://uat3.cimbclicks.com.my/dobb2c/",
-            with: "novuscimboctouat://"
-        )
-        if !appUrl.contains("Callback=") {
-            let separator = appUrl.contains("?") ? "&" : "?"
-            let callback = "rzpcurlectestapp://payment/callback"
-                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "rzpcurlectestapp%3A%2F%2Fpayment%2Fcallback"
-            appUrl += "\(separator)Callback=\(callback)"
+        guard let components = URLComponents(string: webUrl) else { return webUrl }
+
+        var collected: [(String, String)] = []
+        var seen = Set<String>()
+
+        // 1. Query string.
+        for item in components.queryItems ?? [] {
+            if let v = item.value, !seen.contains(item.name) {
+                collected.append((item.name, v))
+                seen.insert(item.name)
+            }
         }
-        return appUrl
+
+        // 2. Fragment (e.g. "//RPP/MY/Redirect/RTP?k=v&...").
+        if let frag = components.fragment,
+           let qMark = frag.firstIndex(of: "?") {
+            let qStr = String(frag[frag.index(after: qMark)...])
+            for pair in qStr.split(separator: "&") {
+                let kv = pair.split(separator: "=", maxSplits: 1).map(String.init)
+                guard kv.count == 2 else { continue }
+                let k = kv[0].removingPercentEncoding ?? kv[0]
+                let v = kv[1].removingPercentEncoding ?? kv[1]
+                if !seen.contains(k) {
+                    collected.append((k, v))
+                    seen.insert(k)
+                }
+            }
+        }
+
+        // 3. Attach our return callback.
+        if !seen.contains("Callback") {
+            collected.append(("Callback", "rzpcurlectestapp://payment/callback"))
+        }
+
+        // 4. Build the canonical OCTO deep link.
+        var deepLink = URLComponents()
+        deepLink.scheme = "novuscimboctouat"
+        deepLink.host = "RPP"
+        deepLink.path = "/MY/Redirect/RTP"
+        deepLink.queryItems = collected.map { URLQueryItem(name: $0.0, value: $0.1) }
+        return deepLink.url?.absoluteString ?? webUrl
     }
 
     // MARK: - Deep Link Callback (from CIMB app via SceneDelegate)
